@@ -10,4 +10,5 @@
 5. There are 2 endpoints that are available for testing : 
    - `/api/users/subscribe` -> to subscribe user to a specific website (requets body defined in postman collecition)
    - `/api/posts/create` -> to create a post for a particular website (request body defined in postman collection), it should send email to subcribed users which post belongs to a particular website
-6. To send email using command, I use it using `php artisan subscriber:emails` {websiteId}
+6. To send email using command, I use it using `php artisan subscriber:emails {websiteId}` 
+7. For `No duplicate stories should get sent to subscribers.` I use it to the `php artisan subscriber:emails {websiteId}` command, which only send the emails to the subscribers for a particular website if they never accept that email previously.
