@@ -98,7 +98,7 @@ class UsersController extends Controller
 
         $validator = Validator::make($input, [
             'website_id' => ['required', Rule::exists('websites', 'id')],
-            'user_id' => ['required', Rule::exists('websites', 'id')],
+            'user_id' => ['required', Rule::exists('users', 'id')],
         ]);
 
         if ($validator->fails()) {
