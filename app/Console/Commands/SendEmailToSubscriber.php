@@ -37,11 +37,11 @@ class SendEmailToSubscriber extends Command
 
         if ($website) {
             // Get all subscribers from a website_id
-            $subscribers = Newsletter::where('website_id', 1)->with('user', 'website')->get();
+            $subscribers = Newsletter::where('website_id', 1)->where('is_mail_sent', false)->with('user', 'website')->get();
 
             // send email to subscribers
             foreach ($subscribers as $subscriber) {
-                $this->sendEmailToSubscribers($subscriber->user->id);
+                $this->sendEmailToSubscribers($subscriber->website->id, $subscriber->user->id);
             }
             echo 'Emails successfully sent';
         } else {
@@ -49,10 +49,14 @@ class SendEmailToSubscriber extends Command
         }
     }
 
-    private function sendEmailToSubscribers($userId)
+    private function sendEmailToSubscribers($websiteId, $userId)
     {
         $user = User::find($userId);
 
         Mail::to($user)->send(new WebsiteSubscription());
+
+        $newsletter = Newsletter::where('website_id', $websiteId)->where('user_id', $userId)->first();
+        $newsletter->is_mail_sent = true;
+        $newsletter->save();
     }
 }
